@@ -15,6 +15,7 @@ shell_user="dtu_training"
 
 # These need to be set as environment variables prior to launching the script
 #export DYNATRACE_ENVIRONMENT_ID=     # only the environmentid (abc12345) is needed. script assumes a sprint tenant 
+##for testing purposes using a full tenant url
 #export DYNATRACE_TOKEN=              # for Perform vHOT we get a token that is both an API and PaaS token
 
 ##########################################
@@ -34,7 +35,8 @@ echo "Retrieving Dynatrace Environment details"
 
 # Retrieve environment. Available from DTU pipeline as $DYNATRACE_ENVIRONMENT_ID
 # DT_TENANT MUST be set without leading https:// or trailing slashes
-DT_TENANT=https://$DYNATRACE_ENVIRONMENT_ID.sprint.dynatracelabs.com
+#DT_TENANT=https://$DYNATRACE_ENVIRONMENT_ID.sprint.dynatracelabs.com
+DT_TENANT=$DYNATRACE_ENVIRONMENT_ID
 
 VM_IP=$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4)
 echo "Virtual machine IP: $VM_IP"

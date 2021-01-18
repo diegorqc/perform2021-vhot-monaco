@@ -2,7 +2,7 @@
 #  VARIABLES                             #
 ##########################################
 monaco_version="v1.1.0" 
-source_repo="https://github.com/dynatrace-ace/perform2021-vhot-monaco" 
+source_repo="https://github.com/diegorqc/perform2021-vhot-monaco" 
 clone_folder="bootstrap"
 domain="nip.io"
 jenkins_chart_version="1.27.0"
@@ -11,7 +11,7 @@ git_repo="perform"
 git_user="dynatrace"
 git_pwd="dynatrace"
 git_email="perform2021@dt-perform.com"
-shell_user="dtu_training"
+shell_user="dtu.training"
 
 # These need to be set as environment variables prior to launching the script
 #export DYNATRACE_ENVIRONMENT_ID=     # only the environmentid (abc12345) is needed. script assumes a sprint tenant 

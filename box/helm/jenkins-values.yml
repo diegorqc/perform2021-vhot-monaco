@@ -9,17 +9,7 @@ master:
   serviceType: ClusterIP
   ingress:
     enabled: true
-    hostName: JENKINS_INGRESS_PLACEHOLDER
-    #certManager: true
-    # annotations:
-    #   kubernetes.io/ingress.class: "nginx"    
-    #   cert-manager.io/issuer: "letsencrypt-staging"
-    #   ingress.kubernetes.io/secure-backends: true
-    #   kubernetes.io/tls-acme: true
-    # tls:    
-    # - hosts:    
-    #   - JENKINS_INGRESS_PLACEHOLDER
-    #   secretName: jenkins.local-tls 
+    hostName: jenkins.INGRESS_PLACEHOLDER
   containerEnv:
     - name: GITHUB_USER_EMAIL
       value: GITHUB_USER_EMAIL_PLACEHOLDER
@@ -92,7 +82,7 @@ master:
           authorizationStrategy:
             loggedInUsersCanDoAnything:
               allowAnonymousRead: false
-          systemMessage: Welcome to the ACE BOX CI\CD server.  This Jenkins is configured and managed 'as code'.
+          systemMessage: Welcome to the Quality Gates CI\CD server.  This Jenkins is configured and managed 'as code'.
           disableRememberMe: false
           numExecutors: 2
           globalNodeProperties:
@@ -560,23 +550,6 @@ master:
                 definition {
                   cpsScm {
                     scriptPath('jenkins/deployProd.Jenkinsfile')
-                    scm {
-                      git {
-                          remote { 
-                            url('${GIT_PROTOCOL}://${GIT_DOMAIN}/${GITHUB_ORGANIZATION}/${GIT_REPO}')
-                          }
-                          branch('*/master')
-                      }
-                    }
-                    lightweight()
-                  }
-                }
-              }
-          - script: >
-              pipelineJob('Monitoring as Code') {
-                definition {
-                  cpsScm {
-                    scriptPath('jenkins/mac.Jenkinsfile')
                     scm {
                       git {
                           remote { 

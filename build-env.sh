@@ -160,14 +160,14 @@ cd $home_folder/$git_repo && git push http://$git_user:$gitea_pat@gitea.$ingress
 # Install ActiveGate         #
 ##############################
 
-echo "Dynatrace ActiveGate - Download"
-activegate_download_location=$home_folder/Dynatrace-ActiveGate-Linux-x86-latest.sh
-if [ ! -f "$activegate_download_location" ]; then
-    echo "$activegate_download_location does not exist. Downloading now..."
-    wget "$DT_TENANT/api/v1/deployment/installer/gateway/unix/latest?arch=x86&flavor=default" --header="Authorization: Api-Token $DYNATRACE_TOKEN" -O $activegate_download_location 
-fi
-echo "Dynatrace ActiveGate - Install Private Synthetic"
-DYNATRACE_SYNTHETIC_AUTO_INSTALL=true /bin/sh "$activegate_download_location" --enable-synthetic
+# echo "Dynatrace ActiveGate - Download"
+# activegate_download_location=$home_folder/Dynatrace-ActiveGate-Linux-x86-latest.sh
+# if [ ! -f "$activegate_download_location" ]; then
+#     echo "$activegate_download_location does not exist. Downloading now..."
+#     wget "$DT_TENANT/api/v1/deployment/installer/gateway/unix/latest?arch=x86&flavor=default" --header="Authorization: Api-Token $DYNATRACE_TOKEN" -O $activegate_download_location 
+# fi
+# echo "Dynatrace ActiveGate - Install Private Synthetic"
+# DYNATRACE_SYNTHETIC_AUTO_INSTALL=true /bin/sh "$activegate_download_location" --enable-synthetic
 
 
 ##############################

@@ -1,4 +1,4 @@
-ENVS_FILE = "monaco/environments.yaml"
+ENVS_FILE = "mac/tenants.yaml"
 
 pipeline {
     agent {

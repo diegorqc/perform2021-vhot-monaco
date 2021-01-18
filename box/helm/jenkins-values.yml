@@ -10,6 +10,16 @@ master:
   ingress:
     enabled: true
     hostName: jenkins.INGRESS_PLACEHOLDER
+    # certManager: true
+    # annotations:
+    #   kubernetes.io/ingress.class: "nginx"    
+    #   cert-manager.io/issuer: "letsencrypt-staging"
+    #   ingress.kubernetes.io/secure-backends: true
+    #   kubernetes.io/tls-acme: true
+    # tls:    
+    # - hosts:    
+    #   - JENKINS_INGRESS_PLACEHOLDER
+    #   secretName: jenkins.local-tls 
   containerEnv:
     - name: GITHUB_USER_EMAIL
       value: GITHUB_USER_EMAIL_PLACEHOLDER
@@ -39,12 +49,8 @@ master:
       value: KEPTN_BRIDGE_PLACEHOLDER
     - name: KEPTN_API_TOKEN
       value: KEPTN_API_TOKEN_PLACEHOLDER
-    - name: ACE_LIB
-      value: ACE_LIB_PLACEHOLDER
-    - name: KEPTN_LIB
-      value: KEPTN_LIB_PLACEHOLDER
     - name: SYNTH_NODE_ID
-      value: "SYNTH_NODE_ID_PLACEHOLDER"
+      value: SYNTH_NODE_ID_PLACEHOLDER
     - name: KUBE_BEARER_TOKEN
       value: KUBE_BEARER_TOKEN_PLACEHOLDER
   csrf:
@@ -53,22 +59,22 @@ master:
       proxyCompatability: true
   installPlugins:
     - command-launcher:1.5
-    - kubernetes:1.27.3
+    - kubernetes:1.28.5
     - kubernetes-credentials-provider:0.15
     - workflow-job:2.40
     - workflow-aggregator:2.6
     - credentials-binding:1.24
-    - git:4.4.5
+    - git:4.5.2
     - google-oauth-plugin:1.0.2
     - google-source-plugin:0.4
     - performance:3.18
-    - github-branch-source:2.9.1
+    - github-branch-source:2.9.3
     - job-dsl:1.77
     - pipeline-build-step:2.13
     - docker-plugin:1.2.1
-    - blueocean:1.23.2
-    - configuration-as-code:1.45
-    - http_request:1.8.26
+    - blueocean:1.24.3
+    - configuration-as-code:1.46
+    - http_request:1.8.27
     - pipeline-utility-steps:2.6.1
   JCasC:
     enabled: true
@@ -82,7 +88,7 @@ master:
           authorizationStrategy:
             loggedInUsersCanDoAnything:
               allowAnonymousRead: false
-          systemMessage: Welcome to the Quality Gates CI\CD server.  This Jenkins is configured and managed 'as code'.
+          systemMessage: Welcome to the ACE BOX CI\CD server.  This Jenkins is configured and managed 'as code'.
           disableRememberMe: false
           numExecutors: 2
           globalNodeProperties:
@@ -112,10 +118,6 @@ master:
                 value: ${KEPTN_BRIDGE} #Load from Environment Variable
               - key: "KEPTN_API_TOKEN"
                 value: ${KEPTN_API_TOKEN} #Load from Environment Variable
-              - key: "ACE_LIB"
-                value: ${ACE_LIB} #Load from Environment Variable
-              - key: "KEPTN_LIB"
-                value: ${KEPTN_LIB} #Load from Environment Variable
               - key: "SYNTH_NODE_ID"
                 value: ${SYNTH_NODE_ID} #Load from Environment Variable
               - key: "KUBE_BEARER_TOKEN"
@@ -458,25 +460,6 @@ master:
                     description: "Github Credentials for ACE"
                     id: "git-creds-ace"
                     scope: GLOBAL
-        unclassified:
-          globalLibraries:
-            libraries:
-            - name: "keptn-library"
-              retriever:
-                modernSCM:
-                  scm:
-                    git:
-                      remote: "${KEPTN_LIB}"
-                      traits:
-                      - "gitBranchDiscovery"
-            - name: "ace"
-              retriever:
-                modernSCM:
-                  scm:
-                    git:
-                      remote: "${ACE_LIB}"
-                      traits:
-                      - "gitBranchDiscovery"
         jobs:
           - script: >
               pipelineJob('1. Build') {
@@ -540,29 +523,7 @@ master:
                   }
                 }
               }
-          - script: >
-              pipelineJob('4. Deploy production') {
-                parameters {
-                  stringParam('APP_NAME', 'simplenodeservice', 'The name of the service to deploy.')
-                  stringParam('TAG_STAGING', '', 'The image of the service to deploy.')
-                  stringParam('BUILD', '', 'The version of the service to deploy.')
-                }
-                definition {
-                  cpsScm {
-                    scriptPath('jenkins/deployProd.Jenkinsfile')
-                    scm {
-                      git {
-                          remote { 
-                            url('${GIT_PROTOCOL}://${GIT_DOMAIN}/${GITHUB_ORGANIZATION}/${GIT_REPO}')
-                          }
-                          branch('*/master')
-                      }
-                    }
-                    lightweight()
-                  }
-                }
-              }
-
+              
 persistence:
   enabled: true
   existingClaim: "jenkins-pvc"
